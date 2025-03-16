@@ -1,26 +1,34 @@
-import { useState,useEffect } from 'react'
-import './App.css'
-import axios from 'axios';
-
+import { useState, useEffect } from 'react';
+import './App.css';
 import './index.css';
-import RegisterForm from './RegisterForm';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import AddParcel from './components/AddParcel';
+import EditParcel from './components/EditParcel';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, Bounce } from 'react-toastify';
+
 function App() {
-const [message,setMessage] = useState('')
-useEffect(()=>{
-//Fetch ApI
-axios.get("http://localhost:9000/")
-.then(response => {
-setMessage(response.data)
-})
-.catch(error=>{
-setMessage(error.message)
-})
-},[])
-return (
-<>
-<h1 className='text-blue-500'>Welcome to online postal service</h1>
-<RegisterForm/>
-</>
-)
+  return (
+    <>
+      <BrowserRouter>
+        <Header />
+        <main className='bg-gray-200 p-6'>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/addparcel" element={<AddParcel />} />
+            <Route path="/editparcel/:id" element={<EditParcel />} />
+          </Routes>
+        </main>
+        <Footer />
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false}
+          closeOnClick={true} transition={Bounce} theme="colored" />
+      </BrowserRouter>
+    </>
+  );
 }
-export default App
+
+export default App;
